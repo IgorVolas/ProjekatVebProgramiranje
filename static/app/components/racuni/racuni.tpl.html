@@ -1,0 +1,45 @@
+<div class="input-group ml-3 mt-3">
+
+        <span class="input-group-addon mr-2"><i class="fa fa-user fa-lg"></i></span>
+        <input name="ulogovani" class="ulogovani" ng-model="rc.ulogovaniKorisnik.korisnicko_ime">
+</div>
+
+<div class="shadow-lg p-5 mt-5 mb-3">
+        <h4>Računi lica: <span class="lice">{{rc.pravnoLice.ime}}</span></h4>
+        <table class="table table-sm mt-5">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Broj računa</th>
+                    <th>Iznos</th>
+                    <th>Obrisan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="racun in rc.racuni">
+                    <td>{{$index+1}}</td>
+                    <td>{{racun.broj}}</td>
+                    <td>{{racun.iznos}},00</td>
+                    <td>{{racun.obrisano}}</td>
+                    <td class="text-right">
+                        <a ng-if="racun.obrisano=='ne'" class="btn btn-danger float-right"  ng-click="rc.dobaviRacun(racun.id)">Obriši</a>
+                        <a ng-if="racun.obrisano=='da'" class="btn btn-danger float-right"  ng-click="rc.dobaviRacun1(racun.id)">Poništi brisanje</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                
+            </tfoot>
+        </table>
+    
+        <div class="align-bottom mt-5">
+            <a class="btn btn-primary btn-lg btn-block" ui-sref="noviRacun({id: rc.pravnoLice.id})">Dodaj novi račun</a>
+        </div>
+    </div>
+    <div>
+            <div uib-alert ng-repeat="alert in rc.alerts" ng-class="'alert-' + (alert.type)" class="float-right" close="rc.closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
+
+        <a class="btn btn-secondary" ui-sref="pravnaLica">Nazad</a>
+</div>
+

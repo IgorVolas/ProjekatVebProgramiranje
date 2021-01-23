@@ -1,0 +1,29 @@
+a{
+    color: gray;
+}
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+.lice{
+    font-size: 30px;
+}
+#admin{
+    width: 200px;
+    height: 200px;
+}
+.chart{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+body{
+    margin-bottom: 200px;
+}
+.racuni{
+    font-weight: 800;
+}
+.ulogovani{
+    border: none;
+    text-transform: uppercase;
+    font-weight: 1000;
+}

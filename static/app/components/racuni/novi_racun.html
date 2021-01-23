@@ -1,0 +1,20 @@
+<div class="input-group ml-3 mt-3">
+        <span class="input-group-addon mr-2"><i class="fa fa-user fa-lg"></i></span>
+        <input name="ulogovani" class="ulogovani" ng-model="rc.ulogovaniKorisnik.korisnicko_ime">
+</div>
+
+<div class="shadow-lg p-5 mt-5 mb-4">
+    <div class="mb-3">
+        <form ng-submit="rc.dodajRacun()">
+            <div class="form-group">
+                <label for="broj">Broj računa</label>
+                <input type="number" max="9999999999999999" min="99999" class="form-control" name="broj" placeholder="Broj racuna" ng-model="rc.noviRacun.broj" required>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Dodaj">
+            <a class="btn btn-secondary" ui-sref="racuni({id: rc.noviRacun.lica_id})">Nazad</a>
+        </form>
+    </div>
+</div>
+
+
+<div uib-alert ng-repeat="alert in rc.alerts" ng-class="'alert-' + (alert.type)" class="float-right pt-3 pb-3" close="rc.closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>

@@ -1,0 +1,14 @@
+<div class="shadow-lg p-5 mt-5 mb-5">
+    <form class="form-inline" ng-submit="lc.login()">
+        <img src="admin.png" id="admin">
+        <div ng-if="!lc.loggedIn" class="ml-auto">
+            <input class="form-control" placeholder="Korisničko ime" type="text" ng-model="lc.admin.korisnicko_ime">
+            <input class="form-control" placeholder="Lozinka" type="password" ng-model="lc.admin.lozinka">
+            <button type="submit" class="btn btn-dark">
+                <i class="fa fa-arrow-right fa-lg"></i>
+            </button>
+        </div>    
+    </form>
+</div>
+
+<div uib-alert ng-repeat="alert in lc.alerts" class="float-right" close="lc.closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>

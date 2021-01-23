@@ -1,0 +1,39 @@
+<div class="input-group ml-3 mt-3">
+        <span class="input-group-addon mr-2"><i class="fa fa-user fa-lg"></i></span>
+        <input name="ulogovani" class="ulogovani" ng-model="tc.ulogovaniKorisnik.korisnicko_ime">
+</div>
+
+<div class="mt-5 mb-5">   
+    <table class="table shadow-lg p-4 bg-white">
+        <thead class="h5">
+            <tr>
+                <th>#</th>
+                <th>Datum</th>
+                <th colspan="2" class="text-center">Između računa</th>
+                <th>Iznos</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="tr in tc.transakcije track by $index">
+                <td>{{$index+1}}</td>
+                <td>{{tr.datum|date:'dd. MM. yyyy.'}}</td>
+                <td class="text-center">ID računa: {{tr.racuni_id}}</td>
+                <td class="text-center">ID računa: {{tr.racuni_id1}}</td>
+                <td>{{tr.iznos}},00</td>
+                <td class="text-right">
+                    <a ui-sref="transakcija({id: tr.id})" class="btn btn-primary btn-sm">Detaljno</a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            
+        </tfoot>
+    </table>
+
+    
+
+    <div class="align-bottom mt-5">
+        <a class="btn btn-primary btn-lg btn-block" ui-sref="novaTransakcija">Izvrši novu transakciju</a>
+    </div>
+</div>

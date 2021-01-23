@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Transakcije</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="shortcut icon" href="favicon.png" />
+    <meta charset="UTF-8">
+</head>
+
+
+<body ng-app="app">
+    <div class="container">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom mt-5">
+            <ul class="navbar-nav">
+                <li class="nav-item active" ui-sref-active="active"><a class="nav-link" ui-sref="pravnaLica">Pravna lica</a></li>
+                <li class="nav-item" ui-sref-active="active"><a class="nav-link" ui-sref="fizickaLica">Fizička lica</a></li>
+                <li class="nav-item" ui-sref-active="active"><a class="nav-link" ui-sref="transakcije">Transakcije</a></li>
+                <div class="text-right" ng-controller="LoginCtrl as lc">
+                    <button class="btn btn-dark text-danger" ng-click="lc.logout()">Odjava</button>
+                </div>
+            </ul>
+        </nav>
+        
+        
+        <div class="modal fade bd-example-modal-lg" data-keyboard="false" data-backdrop="static" id="pretraga" tabindex="-1"  role="dialog" aria-labelledby="modalLabel" aria-hidden="true" ng-controller="PretragaCtrl as pc">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h4 class="modal-title ml-auto pl-4" id="modalLabel">Pretraga</h4>
+                        <button class="close" data-dismiss="modal" ng-click="pc.zatvori()">&times;</button>
+                        
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <button class="btn btn-primary btn-block p-2" ng-click="pc.lice()">Pretraži lice</button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <button class="btn btn-primary btn-block p-2" ng-click="pc.transakcija()">Pretraži transakciju</button>
+                            </div>
+                        </div>
+                    </div>
+                    <form ng-submit="pc.dobaviLica()" ng-if="pc.pretraziLice == 1 && pc.pretraziTransakciju == 0" class="ml-3 mr-3">
+                        <div class="form-group">
+                            <label for="ime">Pretraži lice</label>
+                            <input type="text" name="ime" class="form-control" placeholder="Ime lica" ng-model="pc.ime">
+                        </div>
+                        <input type="submit" class="btn btn-primary float-right mb-3" value="Pretraži">
+                    </form>
+                    <form ng-submit="pc.dobaviTransakcije()" ng-if="pc.pretraziTransakciju == 1 && pc.pretraziLice == 0" class="ml-3 mr-3">
+                        <div class="form-group">
+                            <label for="uplatilac">Uplatilac</label>
+                            <select class="form-control" name="uplatilac" ng-options="lice.id as lice.ime for lice in pc.svaLica track by lice.id"
+                                ng-model="pc.parametriPretrage.uplatilac"><option></option></select>
+                            <label for="primaoc">Primaoc</label>
+                            <select class="form-control" name="primaoc" ng-options="lice.id as lice.ime for lice in pc.svaLica track by lice.id"
+                                ng-model="pc.parametriPretrage.primaoc"><option></option></select>
+    
+                        </div>
+                        <input type="submit" class="btn btn-primary float-right mb-3" value="Pretraži">
+                    </form>
+                    <div ng-if="pc.tabela == 1 && pc.pretraziTransakciju == 0" class="mt-3 mb-5 ml-2 mr-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ime</th>
+                                    <th>Adresa</th>
+                                    <th>PIB</th>
+                                    <th>Matični broj</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="lice in pc.lica track by $index">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{lice.ime}}</td>
+                                    <td>{{lice.adresa}}</td>
+                                    <td>{{lice.PIB}}</td>
+                                    <td>{{lice.maticni_broj}}</td>
+                                    <td class="text-right">
+                                        <a ng-if="lice.tip == 'pravno'" ui-sref="pravnoLice({id: lice.id})" class="btn btn-primary btn-sm" data-dismiss="modal">
+                                            Detaljno</a>
+                                        <a ng-if="lice.tip == 'fizicko'" ui-sref="fizickoLice({id: lice.id})" class="btn btn-primary btn-sm" data-dismiss="modal">
+                                                Detaljno</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-if="pc.tabela1 == 1 && pc.pretraziLice == 0" class="mt-3 mb-5 ml-2 mr-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Datum</th>
+                                    <th colspan="2" class="text-center">Između računa</th>
+                                    <th>Iznos</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tr in pc.transakcije track by $index">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{tr.datum|date:'dd. MM. yyyy.'}}</td>
+                                    <td class="text-center">ID računa: {{tr.racuni_id}}</td>
+                                    <td class="text-center">ID računa: {{tr.racuni_id1}}</td>
+                                    <td>{{tr.iznos}},00</td>
+                                    <td class="text-right">
+                                        <a ui-sref="transakcija({id: tr.id})" class="btn btn-primary btn-sm" data-dismiss="modal">Detaljno</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="pc.zatvori()">Zatvori</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ui-view></ui-view>
+    </div>
+    
+    <script src="scripts/jquery-3.3.1.min.js"></script>
+    <script src="scripts/popper.min.js"></script>
+    <script src="scripts/bootstrap.bundle.min.js"></script>
+
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/angular-ui-router.min.js"></script>
+    <script src="scripts/Chart.min.js"></script>
+    <script src="scripts/canvasjs.min.js"></script>
+    <script src="scripts/angular-chart.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+
+    <script src="app/app.js"></script>
+    <script src="app/components/lica/licaCtrl.js"></script>
+    <script src="app/components/lica/liceCtrl.js"></script>
+    <script src="app/components/racuni/racuniCtrl.js"></script>
+    <script src="app/components/transakcije/transakcijeCtrl.js"></script>
+    <script src="app/components/transakcije/transakcijaCtrl.js"></script>
+    <script src="app/components/pretragaCtrl.js"></script>
+    <script src="app/components/login/loginCtrl.js"></script>
+</body>
+
+</html>

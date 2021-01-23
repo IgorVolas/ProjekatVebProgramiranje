@@ -1,0 +1,41 @@
+<div class="input-group ml-3 mt-3">
+        <span class="input-group-addon mr-2"><i class="fa fa-user fa-lg"></i></span>
+        <input name="ulogovani" class="ulogovani" ng-model="plc.ulogovaniKorisnik.korisnicko_ime">
+</div>
+
+<div class="mt-5 mb-5">
+    <table class="table shadow-lg p-4 bg-white">
+        <thead class="h5">
+            <tr>
+                <th>#</th>
+                <th>Ime i prezime</th>
+                <th>Adresa</th>
+                <th>Matični broj</th>
+                <th>Tip</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="lice in plc.fizickaLica">
+                <td>{{$index+1}}</td>
+                <td>{{lice.ime}}</td>
+                <td>{{lice.adresa}}</td>
+                <td>{{lice.maticni_broj}}</td>
+                <td>{{lice.tip}}</td>
+                <td><a ui-sref="racuni({id: lice.id})" class="racuni">Prikaži račune</a></td>
+                <td class="text-right">
+                    <a ui-sref="fizickoLice({id: lice.id})" class="btn btn-primary btn-sm">
+                        Detaljno</a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            
+        </tfoot>
+    </table>
+
+    <div class="align-bottom mt-5">
+        <a class="btn btn-primary btn-lg btn-block" ui-sref="novoFizickoLice">Dodaj novo lice</a>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="input-group ml-3 mt-3">
+        <span class="input-group-addon mr-2"><i class="fa fa-user fa-lg"></i></span>
+        <input name="ulogovani" class="ulogovani" ng-model="ttc.ulogovaniKorisnik.korisnicko_ime">
+</div>
+
+<div class="shadow-lg p-5 mt-5 mb-3">
+    <form>
+        <div class="form-group text-right">
+            <label for="datum">Datum obavljanja transakcije:</label>
+            <div><b>{{ttc.transakcija.datum|date:'dd. MM. yyyy.'}}</b></div>
+        </div>
+        <div class="form-group">
+            <label for="id">ID transakcije</label>
+            <input type="number" class="form-control" name="id" ng-model="ttc.transakcija.id" readonly>
+        </div>
+        <div class="form-group">
+            <label for="uplatilac">Uplatilac</label>
+            <input type="text" class="form-control" name="uplatilac" placeholder="Uplatilac" ng-model="ttc.lice.ime" readonly>
+        </div>
+        <div class="form-group">
+            <label for="primaoc">Primaoc</label>
+            <input type="text" class="form-control" name="primaoc" placeholder="Primaoc" ng-model="ttc.lice1.ime" readonly>
+        </div>
+        <div class="form-group">
+            <label for="iznos">Iznos</label>
+            <input type="number" class="form-control" name="iznos" placeholder="Iznos" ng-model="ttc.transakcija.iznos" readonly>
+        </div>
+        <div class="form-group">
+            <label for="obrisano">Obrisano</label>
+            <input type="text" class="form-control" name="obrisano" placeholder="Obrisano" ng-model="ttc.transakcija.obrisano" readonly>
+        </div>
+        <a class="btn btn-secondary" ui-sref="transakcije">Nazad</a>
+        <a ng-if="ttc.transakcija.obrisano=='ne'" class="btn btn-danger float-right"  ng-click="ttc.ukloniTransakciju(ttc.transakcija.id)">Obriši</a>
+        <a ng-if="ttc.transakcija.obrisano=='da'" class="btn btn-danger float-right"  ng-click="ttc.ponistiUklanjanjeTransakcije(ttc.transakcija.id)">Poništi brisanje</a>
+    </form>
+</div>
+
+<div uib-alert ng-repeat="alert in ttc.alerts" ng-class="'alert-' + (alert.type)" class="float-right pt-3 pb-3" close="ttc.closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
